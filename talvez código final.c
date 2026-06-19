@@ -11,9 +11,9 @@
 #define TRAIN_SIZE 56554
 #define TEST_SIZE 14138
 #define MAX_LINE_LENGTH 2048
-#define NUM_TREES 10
-#define LEARNING_RATE 0.3f
-#define REG_LAMBDA 1.0f
+#define NUM_TREES 40
+#define LEARNING_RATE 0.05f
+#define REG_LAMBDA 10.0f
 
 /* Estrutura de Árvore de Decisão (Stump) */
 typedef struct No {
@@ -208,7 +208,7 @@ int main() {
     float* g = (float*)malloc(TRAIN_SIZE * sizeof(float));
     float* h = (float*)malloc(TRAIN_SIZE * sizeof(float));
 
-    printf("Treinando XGBoost...");
+    printf("Treinando XGBoost...\n");
     for (int t = 0; t < NUM_TREES; t++) {
         for (int i = 0; i < TRAIN_SIZE; i++) {
             float p = sigmoid(base_preds[i]);
@@ -219,7 +219,7 @@ int main() {
         for (int i = 0; i < TRAIN_SIZE; i++) {
             base_preds[i] += prever_arvore(ensemble[t], &train_x[i * num_feat]);
         }
-        printf(".");
+        printf("-> Arvore %d concluida com sucesso!\n", t + 1);
     }
 
     salvar_modelo(ensemble, NUM_TREES, "modelo_diabetes.txt");
