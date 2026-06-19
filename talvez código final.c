@@ -73,7 +73,7 @@ No* treinar_nova_arvore(float* features, float* g, float* h, int n_amostras, int
 
     // Busca exaustiva pelo melhor split (Ganho Máximo)
     for (int f = 0; f < n_features; f++) {
-        for (int i = 0; i < n_amostras; i++) {
+        for (int i = 0; i < n_amostras; i += 100) {
             float limiar_atual = features[i * n_features + f];
             float gl = 0, hl = 0, gr = 0, hr = 0;
 
