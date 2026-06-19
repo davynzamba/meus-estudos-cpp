@@ -177,27 +177,53 @@ int main() {
     FILE* csv = fopen("diabetes_binary_5050split_health_indicators_BRFSS2015.csv", "r");
     if (!csv) { printf("Erro ao abrir CSV.\n"); return 1; }
 
+    // 1. Aloca memória temporária para o dataset inteiro
+    float* all_x = (float*)malloc(TOTAL_ROWS * num_feat * sizeof(float));
+    float* all_y = (float*)malloc(TOTAL_ROWS * sizeof(float));
+
     char buffer[MAX_LINE_LENGTH];
     fgets(buffer, MAX_LINE_LENGTH, csv); // Pular cabeçalho
 
+    // 2. Lê todas as linhas do CSV
     for (int i = 0; i < TOTAL_ROWS; i++) {
         if (!fgets(buffer, MAX_LINE_LENGTH, csv)) break;
         char* token = strtok(buffer, ",");
         for (int j = 0; j < TOTAL_COLS; j++) {
             float val = (float)atof(token);
-            if (i < TRAIN_SIZE) {
-                if (j == 0) train_y[i] = val;
-                else train_x[i * num_feat + (j - 1)] = val;
-            }
-            else {
-                int ti = i - TRAIN_SIZE;
-                if (j == 0) test_y[ti] = val;
-                else test_x[ti * num_feat + (j - 1)] = val;
-            }
+            if (j == 0) all_y[i] = val;
+            else all_x[i * num_feat + (j - 1)] = val;
             token = strtok(NULL, ",");
         }
     }
     fclose(csv);
+
+    // 3. Cria e embaralha os índices (Fisher-Yates Shuffle)
+    int* indices = (int*)malloc(TOTAL_ROWS * sizeof(int));
+    for(int i = 0; i < TOTAL_ROWS; i++) indices[i] = i;
+
+    srand(42); // Semente fixa para que os testes deem sempre o mesmo resultado
+    for(int i = TOTAL_ROWS - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = indices[i];
+        indices[i] = indices[j];
+        indices[j] = temp;
+    }
+
+    // 4. Distribui os dados embaralhados para Treino e Teste
+    for (int i = 0; i < TOTAL_ROWS; i++) {
+        int idx = indices[i]; // Pega uma linha aleatória
+        if (i < TRAIN_SIZE) {
+            train_y[i] = all_y[idx];
+            for(int c = 0; c < num_feat; c++) train_x[i * num_feat + c] = all_x[idx * num_feat + c];
+        } else {
+            int ti = i - TRAIN_SIZE;
+            test_y[ti] = all_y[idx];
+            for(int c = 0; c < num_feat; c++) test_x[ti * num_feat + c] = all_x[idx * num_feat + c];
+        }
+    }
+
+    // Libera a memória temporária
+    free(all_x); free(all_y); free(indices);
 
     // Normalização Min-Max (Colunas não-binárias especificados pelo RACI)
     int norm_cols[] = { 3, 13, 14, 15, 18, 19, 20 }; // BMI, GenHlth, MentHlth, PhysHlth, Age, Education, Income
