@@ -32,7 +32,7 @@ int qretrivie(){
     
     if(ini == fim) {
         printf ("Fila vazia.\n");
-        return = 0;
+        return 0;
     }
 
     ini++;

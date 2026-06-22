@@ -28,17 +28,17 @@ int qretrieve(int *fila, int *ini, int fim)
     (*ini)++;
     return fila[(*ini) - 1];
 }
-//---------------------------------
-// Mostra fila
-void mostra_fila(int fila[], int ini, int fim)
-{
-    printf("\nFila: Inicio --> ");
-    for (int i = ini; i < fim; i++)
+    //---------------------------------
+    // Mostra fila
+    void mostra_fila(int fila[], int ini, int fim)
     {
-        printf("%d ", fila[i]);
+        printf("\nFila: Inicio --> ");
+        for (int i = ini; i < fim; i++)
+        {
+            printf("%d ", fila[i]);
+        }
+        printf("<-- Fim");
     }
-    printf("<-- Fim");
-}
 
 //---------------------------------
 int main()
