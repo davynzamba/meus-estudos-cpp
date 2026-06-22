@@ -47,14 +47,14 @@ void mostra_fila()
     {
         printf("%d ", fila[i]);
     }
-    printf("<-- Fim");
+    printf("<-- Fimn\n");
 }
 
 // -------------------------------
 // Invertendo os elementos
 void inverte_fila(){
     int aux = 0;
-    for (int i = ini; i <= fim/2; i++)
+    for (int i = 0; i <= fim/2; i++)
     {
         int j = fim - i;
 
@@ -81,7 +81,7 @@ int main(){
         printf("Digite - 1 - para inserir um elemento a fila\n");
         printf("Digite - 2 - para remover um elemento da fila\n");
         printf("Digite - 3 - para inverter a fila\n");
-        printf("Digite - 3 - para sair\n");
+        printf("Digite - 4 - para sair\n");
         scanf("%d", &opcao);
 
         switch (opcao)
