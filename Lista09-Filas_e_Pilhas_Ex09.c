@@ -40,12 +40,12 @@ int pop(){
 // Mostra pilha
 void mostra_pilha()
 {
-    printf("\nPilha: Topo\n->  ");
-    for (int i = topo; i > 0; i--)
+    printf("\nPilha: Inicio\n->  ");
+    for (int i = 0; i < topo; i++)
     {
         printf("%d\n", pilha[i]);
     }
-    printf("<-- Inicio\n");
+    printf("<-- Topo\n");
 }
 
 
