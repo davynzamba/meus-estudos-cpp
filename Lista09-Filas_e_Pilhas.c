@@ -94,7 +94,7 @@ int main(){
                 break;
 
             case 2:
-                valor = qretrive();
+                valor = qretrivie();
                 if(ini != fim){
                     printf("Na vez: %d", valor);
                     mostra_fila();
