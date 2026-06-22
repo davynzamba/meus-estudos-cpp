@@ -1,0 +1,83 @@
+// ConsoleApplication1.cpp : Este arquivo contém a função 'main'. A execução do programa começa e termina ali.
+//
+#define _CRT_SECURE_NO_WARNINGS
+#define MAX 10
+#include <stdio.h>
+
+//---------------------------------
+// insere na fila
+void qstore(int *fila, int *fim, int valor) 
+{
+    if (*fim == MAX) 
+    {
+        printf("Fila cheia.\n");
+        return;
+    }
+    fila[*fim] = valor;
+    (*fim)++;
+}
+
+//---------------------------------
+// retira da fila
+int qretrieve(int *fila, int *ini, int fim) 
+{
+    if (*ini == fim) {
+        printf("Fila vazia.\n");
+        return NULL;
+    }
+    (*ini)++;
+    return fila[(*ini) - 1];
+}
+//---------------------------------
+// Mostra fila
+void mostra_fila(int fila[], int ini, int fim)
+{
+    printf("\nFila: Inicio --> ");
+    for (int i = ini; i < fim; i++)
+    {
+        printf("%d ", fila[i]);
+    }
+    printf("<-- Fim");
+}
+
+//---------------------------------
+int main()
+{
+	// inicialização
+	int fila[MAX];
+	int fim = 0;
+	int ini = 0;
+    int opcao = 0;
+    int valor;
+
+    // coloca 0 em todas as posições da fila.
+    for (int i = 0; i < MAX; i++)
+        fila[i] = 0;
+
+    do
+    {
+        printf("\n\nDigite - 1 - para inserir na fila;");
+        printf("\nDigite - 2 - para remover da fila;");
+        printf("\nDigite - 3 - para sair;");
+        printf("\nOpcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao)
+        {
+            case 1:
+                printf("\nValor para inserir: ");
+                scanf("%d", &valor);
+                qstore(fila, &fim, valor);
+                mostra_fila(fila, ini, fim);
+            break;
+        
+            case 2:
+                valor = qretrieve(fila, &ini, fim);
+                printf("\nNa vez: %d", valor);
+                mostra_fila(fila, ini, fim);
+            break;
+        }
+
+    } while (opcao != 3);
+
+}

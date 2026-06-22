@@ -1,0 +1,137 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct tipo_produto
+{
+	int codigo; // Código do produto
+	double preco; // Preço do produto
+	struct tipo_produto* proximo; /* Próximo
+	elemento da lista encadeada de Produtos */
+} TProduto;
+
+void listar(TProduto* noatual)
+{
+	int i = 0;
+	printf("\n ------------------");
+	/* Enquanto não chega no fim da lista */
+	while (noatual != NULL)
+	{
+		i++;
+		printf("\n\nProduto numero %d\n", i);
+		printf("Codigo: %d\n", noatual->codigo);
+		printf("Preco: R$ %.2lf", noatual->preco);
+		noatual = noatual->proximo;
+		/* Faz noatual apontar para o próximo nó */
+	}
+	printf("\n\n ------------------");
+}
+
+//---------------------------------------------
+void inserir(TProduto** cabeca)
+{
+	TProduto* noatual, * novono;
+	int cod;
+	double preco;
+	printf("\nCodigo do novo produto: ");
+	scanf("%d", &cod);
+	printf("\nPreco do produto: R$ ");
+	scanf("%lf", &preco);
+	/* Se ainda não existe nenhum produto na lista */
+	if (*cabeca == NULL)
+	{/* cria o nó cabeça */
+		*cabeca = (TProduto*)malloc(sizeof(TProduto));
+		(*cabeca)->codigo = cod;
+		(*cabeca)->preco = preco;
+		(*cabeca)->proximo = NULL;
+	}
+	else
+	{ /* Se já existem elementos na lista, deve percorre-la até o
+	seu final e inserir o novo elemento */
+		noatual = *cabeca;
+		/* Ao final do while noatual aponta para o ultimo nó */
+		while (noatual->proximo != NULL)
+			noatual = noatual->proximo;
+		/* Aloca memória para o novo nó */
+		novono = (TProduto*)malloc(sizeof(TProduto));
+		novono->codigo = cod;
+		novono->preco = preco;
+		novono->proximo = NULL;
+		/* Faz o ultimo nó apontar para o novo nó */
+		noatual->proximo = novono;
+	}
+}
+
+void remover(TProduto** cabeca)
+{
+	TProduto* noatual;
+    TProduto* noanterior;
+	int cod, esta_na_lista = 0;
+	
+	printf("\nCodigo do produto que deseja remover: ");
+	scanf("%d", &cod);
+
+	
+	noatual = *cabeca;
+	/* Ao final do while noatual aponta para o ultimo nó */
+	while ((noatual->codigo != cod)||(noatual->proximo != NULL)){
+	
+	if(noatual->codigo == cod){
+	    esta_na_lista = 1;
+	    break;
+	}    
+	else
+	    noanterior = noatual;
+        noatual = noatual->proximo;
+	}if(esta_na_lista = 1)
+    
+    {
+}
+
+
+}
+
+//--------------------------------------------
+void main()
+{
+	/* Ponteiro para a cabeca da lista */
+	TProduto* cabeca = NULL;
+	TProduto* noatual; /* Ponteiro a ser usado para
+	percorrer a lista no momento de desalocar seus
+	elementos*/
+	char q; // Caractere para receber a opção do usuário
+	do 
+	{
+		printf("\n\nOpcoes: \nI -> para inserir novo produto; \nL -> para listar os produtos; \nR -> para remover.; \nS -> para sair. \nDigite a sua opcao: ");
+		scanf("%c", &q); /* Le a opção do usuário */
+		switch (q)
+		{
+		case 'i': case 'I':
+			inserir(&cabeca);
+			break;
+			break;		
+		case 'l': case 'L':
+			listar(cabeca);
+			break;
+		case 'r': case 'R':
+			remover(&cabeca);	
+		case 's': case 'S':
+			break;
+		default:
+			printf("\n\n Opcao invalida");
+		}
+		getchar();
+	} while ((q != 's') && (q != 'S'));
+
+	/* Desaloca a memória que foi alocada para 
+	os elementos da lista */
+	noatual = cabeca;
+	while (noatual != NULL)
+	{
+		cabeca = noatual->proximo;
+		free(noatual);
+		noatual = cabeca;
+	}
+}

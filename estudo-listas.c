@@ -14,6 +14,11 @@ typedef struct cliente
 
 }Tcliente;
 
+void mostra_cliente()
+{
+
+}
+
 int main()
 {
     Tcliente clientes[10];
@@ -25,6 +30,7 @@ int main()
     strcpy(clientes[0].endereco, "Rua XV de NOcembro, 100");
     strcpy(clientes[0].cidade, "Xique-Xique");
 
+    mostra_cliente(clientes);
     //mostra cliente
     printf("\n\nCLiente: %d", clientes[0].id);
     printf("\nNome: %s", clientes[0].nome);
